@@ -98,7 +98,7 @@ return jobInstanceService.findPageByNamedParamAndOrder(params.toArray(new String
 5. 分页参考测试用例：[PaginationDaoTest.java](https://gitee.com/melin/bee/blob/master/src/test/java/com/gitee/bee/PaginationDaoTest.java)
 
 ### 二、ActiveRecord 模式实现
-在Rails 和 Grails 有比较成熟的 ActiveRecord 模式应用，简单尝试中，后续开发继续完善
+在Rails 和 Grails 有比较成熟的 [ActiveRecord](https://gitee.com/melin/bee/blob/master/src/main/java/com/gitee/bee/model/ActiveRecord.java) 模式应用，简单尝试中，后续开发继续完善
 ```
 1、初始化spring bean 激活 ActiveRecord
 <bean class="com.gitee.bee.core.hibernate5.ActiveRecordInitializer" />
