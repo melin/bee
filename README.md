@@ -1,4 +1,4 @@
-##防止那天抽风了，代码地址: https://gitee.com/melin/bee
+## 防止那天抽风了，代码地址: https://gitee.com/melin/bee
 
 基于Spring + Hibernate + JdbcTemplate + Freemark封装的DAO层，简单的CURD使用Hibernate，join等复杂sql可使用freemarker 组装sql，可以省去大半的sql，方便简单快捷。
 Base Service和Dao封装了大量的方法，可以省去了大量的代码，基本CURD操作基本需要自定方法，datacompute 项目基于bee开发dao层代码。详细内容请参考:
