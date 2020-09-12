@@ -42,7 +42,60 @@ Base Service和Dao封装了大量的方法，可以省去了大量的代码，�
     
     }
     ```
-4. 参考测试用例：PaginationDaoTest
+4. 实际项目中使用例子
+```java
+//案例一
+Criterion tableName = Restrictions.like("tableName", searchValue, MatchMode.ANYWHERE);
+Criterion modifier = Restrictions.like("modifier", searchValue, MatchMode.ANYWHERE);
+List<TableEntity> tableList = tableService.findByNamedParamAndOrder(new String[]{"databaseName", "tableName"},
+        new Object[]{projectCode, Restrictions.or(tableName, modifier)}, Order.asc("tableName"));
+
+//案例二
+Criterion name = Restrictions.like("name", searchValue, MatchMode.ANYWHERE);
+Criterion modifier = Restrictions.like("modifier", searchValue, MatchMode.ANYWHERE);
+
+String[] paramKeys = new String[]{"projectCode", "trash", "current", "name"};
+Object[] paramValus = new Object[]{projectCode, trash, current, Restrictions.or(name, modifier)};
+if ("job".equals(type) && "yes".equals(displayOwnerFolder)) {
+    paramKeys = ArrayUtils.add(paramKeys, "owner");
+    paramValus = ArrayUtils.add(paramValus, AuthUtil.getFullName());
+}
+
+List<JobEntity> jobEntityList = jobService.findByNamedParamAndOrder(paramKeys, paramValus, Order.asc("name"));
+
+//案例三
+if (StringUtils.isNotEmpty(startTime)) {
+    params.add("runStart");
+    SimpleExpression contentCri = Restrictions.ge("runStart", DateUtils.convertDate(startTime));
+    values.add(Restrictions.and(contentCri));
+}
+
+if (StringUtils.isNotEmpty(endTime)) {
+    params.add("runStart");
+    SimpleExpression contentCri = Restrictions.le("runStart", DateUtils.convertDate(endTime));
+    values.add(Restrictions.and(contentCri));
+}
+
+if (status != null) {
+    params.add("status");
+    values.add(status);
+}
+
+Order order1 = Order.desc("gmtModified");
+if (StringUtils.isNotEmpty(sort)) {
+    if ("asc".equals(order)) {
+        order1 = Order.asc(sort);
+    } else {
+        order1 = Order.desc(sort);
+    }
+}
+
+return jobInstanceService.findPageByNamedParamAndOrder(params.toArray(new String[]{}), values.toArray(),
+        new Order[]{order1}, page, rows);
+
+```
+  
+5. 分页参考测试用例：PaginationDaoTest
 
 ### 二、ActiveRecord 模式实现
 在Rails 和 Grails 有比较成熟的 ActiveRecord 模式应用，简单尝试中，后续开发继续完善
